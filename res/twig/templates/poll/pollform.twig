@@ -1,0 +1,29 @@
+<form class="form-horizontal" role="form" action="{{ script_dir }}/newpoll/{{ poll_array.id }}" method="post">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Pregunta</th>
+                <th>Respuesta</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in poll_array.questions %}
+                <tr>
+                    <td>{{ question.id|raw }}</td>
+                    <td>{{ question.body|raw }}</td>
+                    <td>
+                        <select class="form-control" name="q_{{ question.id }}">
+                            {% for option in question.options %}
+                                <option value="{{ option.id }}">{{ option.value|raw }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="form-group">
+        <button type="submit" class="btn btn-lg btn-primary btn-block" name="submit" value="{{ poll_token }}">Enviar</button>
+    </div>
+</form>

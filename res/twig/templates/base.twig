@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="description" content="Poll script">
+            <meta name="author" content="Hendell Jonathan Porras Perez">
+            <link rel="icon" href="{{ script_dir }}/favicon.png">
+            <title>{{ page_title }}</title>
+            <link href="{{ script_dir }}/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+            <script src="{{ script_dir }}/vendor/components/jquery/jquery.min.js"></script>
+            <script src="{{ script_dir }}/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+            <style>
+                body {
+                    padding-top: 50px;
+                    margin-bottom: 60px;
+                }
+                html {
+                    position: relative;
+                    min-height: 100%;
+                }
+                .footer {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    height: 60px;
+                    background-color: #e4e0e0;
+                }
+                .container .text-muted {
+                    margin: 20px 0;
+                    text-align: center;
+                    color: black;
+                }
+                #top-link-block.affix-top {
+                    bottom: -82px;
+                    right: 10px;
+                }
+                #top-link-block.affix {
+                    bottom: 18px;
+                    right: 10px;
+                }
+            </style>
+        {% endblock %}
+    </head>
+    <body>
+        {% block navbar %}
+            {{ include('navbar.twig') }}
+        {% endblock %}
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div><!-- /.container -->
+        {% block footer %}
+            <footer class="footer">
+                <div class="container">
+                    <p class="text-muted">&copy; Copyright - NT5 2016 - Poll Script</p>
+                </div>
+            </footer>
+        {% endblock %}
+        <!-- child of the body tag -->
+        <span id="top-link-block" class="hidden">
+            <a href="#top" class="well well-sm" onclick="$('html,body').animate({scrollTop: 0}, 'slow');
+                    return false;">
+                <i class="glyphicon glyphicon-chevron-up"></i> Ir arriba
+            </a>
+        </span><!-- /top-link-block -->
+        <script>
+            if (($(window).height() + 100) < $(document).height()) {
+                $('#top-link-block').removeClass('hidden').affix({
+                    offset: {top: 100}
+                });
+            }
+        </script>
+    </body>
+</html>

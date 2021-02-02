@@ -1,0 +1,55 @@
+CREATE TABLE IF NOT EXISTS `Polls` (
+ `Id` INT AUTO_INCREMENT NOT NULL,
+ `Goal` INT NOT NULL,
+ `Create_by` VARCHAR(32) NOT NULL,
+ `Description` TINYTEXT NOT NULL,
+ `Create_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ PRIMARY KEY(`Id`)
+);
+CREATE TABLE IF NOT EXISTS `Poll_Tokens` (
+ `Id_Poll` INT NOT NULL,
+ `Token` CHAR(32) UNIQUE NOT NULL,
+ `Create_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY(`Id_Poll`) REFERENCES `Polls`(`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS `Poll_Questions` (
+ `Id_Poll` INT NOT NULL,
+ `Id_Question` INT NOT NULL,
+ `Body` VARCHAR(520) NOT NULL,
+ KEY(`Id_Question`, `Id_Poll`),
+ FOREIGN KEY(`Id_Poll`) REFERENCES `Polls`(`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS `Poll_Questions_Options` (
+ `Id_Poll` INT NOT NULL,
+ `Id_Question` INT NOT NULL,
+ `Id_Option` INT NOT NULL,
+ `Value` VARCHAR(120) NOT NULL,
+ KEY(`Id_Option`),
+ FOREIGN KEY(`Id_Question`, `Id_Poll`) REFERENCES `Poll_Questions`(`Id_Question`, `Id_Poll`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS `Poll_Responses` (
+ `Id_Poll` INT NOT NULL,
+ `Id_Response` INT NOT NULL,
+ `Ip_Created` INT DEFAULT 0 NOT NULL,
+ `Create_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ KEY(`Id_Response`, `Id_Poll`),
+ UNIQUE KEY(`Id_Response`, `Id_Poll`),
+ FOREIGN KEY(`Id_Poll`) REFERENCES `Polls`(`Id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS `Poll_Answers` (
+ `Id_Poll` INT NOT NULL,
+ `Id_Question` INT NOT NULL,
+ `Id_Response` INT NOT NULL,
+ `Response` INT NOT NULL,
+ FOREIGN KEY(`Response`) REFERENCES `Poll_Questions_Options`(`Id_Option`) ON UPDATE CASCADE ON DELETE CASCADE,
+ FOREIGN KEY(`Id_Response`, `Id_Poll`) REFERENCES `Poll_Responses`(`Id_Response`, `Id_Poll`) ON UPDATE CASCADE ON DELETE CASCADE,
+ FOREIGN KEY(`Id_Question`, `Id_Poll`) REFERENCES `Poll_Questions`(`Id_Question`, `Id_Poll`) ON UPDATE CASCADE ON DELETE CASCADE
+);
+DELIMITER $$
+CREATE EVENT IF NOT EXISTS `Poll_TokenDelete`
+ ON SCHEDULE EVERY 1 HOUR
+ DO
+  BEGIN
+   DELETE FROM `Poll_Tokens` WHERE `Create_at` < CURRENT_TIMESTAMP;
+  END$$
+DELIMITER ;

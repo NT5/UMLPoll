@@ -1,0 +1,26 @@
+{% if poll_error == 1 %}
+    <div class="alert alert-danger" role="alert" style="text-align: center;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        ¡Link solicitado invalido!
+    </div>
+{% elseif poll_error == 2  %}
+    <div class="alert alert-danger" role="alert" style="text-align: center;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        ¡No se encontro la encuesta solicitada!
+    </div>
+{% elseif poll_error == 3  %}
+    <div class="alert alert-danger" role="alert" style="text-align: center;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        ¡El token de esta encuesta ya expiro!
+    </div>
+{% elseif poll_error == 4  %}
+    <div class="alert alert-danger" role="alert" style="text-align: center;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        ¡No hay datos a ingresar!
+    </div>
+{% else %}
+    <div class="alert alert-danger" role="alert" style="text-align: center;">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        ¡Ocurrio un error en la solicitud!
+    </div>
+{% endif %}

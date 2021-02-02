@@ -1,0 +1,11 @@
+Options All -Indexes
+
+RewriteEngine On
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+RewriteRule ^home(?:\/|)*$ ./index.php?p=home
+RewriteRule ^poll\/(\d+)*$ ./index.php?p=poll&id=$1
+RewriteRule ^newpoll\/(\d+)*$ ./index.php?p=newpoll&id=$1
+RewriteRule ^results\/(\d+)*$ ./index.php?p=results&id=$1

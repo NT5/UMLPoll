@@ -1,0 +1,36 @@
+{% extends "base.twig" %}
+{% block head %}
+    {{ parent() }}
+    <script src="http://code.highcharts.com/adapters/standalone-framework.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+{% endblock %}
+{% block content %}
+    {% if poll_array %}
+        <div class="page-header">
+            <h1>{{ poll_array.description }}</h1>
+        </div>
+        <hr/>
+        <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Puedes participar de esta encuesta <a href="{{ script_dir }}/poll/{{ poll_array.id }}" class="alert-link">aqui!</a>
+        </div>
+        {% if poll_array.replied < poll_array.goal %}
+            <div class="alert alert-warning" role="alert">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                ¡Esta encuesta tiene {{ poll_array.replied }} registros de los {{ poll_array.goal }} esperados!
+            </div>
+        {% else %}
+            <div class="alert alert-success" role="alert">
+                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                ¡Bien hecho! Esta encuesta tiene {{ poll_array.replied }} registros de los {{ poll_array.goal }} esperados.
+            </div>
+        {% endif %}
+        {{ include('results/question_table.twig') }}
+        {{ include('results/progress_chart.twig') }}
+        {{ include('results/question_chart.twig') }}
+    {% else %}
+        <br/>
+        {{ include('poll/invalidpoll.twig') }}
+    {% endif %}
+{% endblock %}

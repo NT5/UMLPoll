@@ -1,0 +1,18 @@
+{% extends "base.twig" %}
+{% block content %}
+    {% if poll_error %}
+        <hr/>
+        {{ include('newpoll/pollerror.twig') }}
+    {% else %}
+        <div class="page-header">
+            <h1>Gracias por completar nuestra encuesta!</h1>
+        </div>
+        <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Puedes ver el progreso de esta encuesta <a href="{{ script_dir }}/results/{{ poll_id }}" class="alert-link">aqui!</a>
+            <hr/>
+            <span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span>
+            Puedes participar de esta encuesta <a href="{{ script_dir }}/poll/{{ poll_id }}" class="alert-link">aqui!</a>
+        </div>
+    {% endif %}
+{% endblock %}

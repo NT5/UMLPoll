@@ -1,0 +1,45 @@
+{% for question in poll_array.questions %}
+    <div id="poll_container_question_{{ question.id }}" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+    <hr/>
+    <script>
+        var data_question_{{ question.id }} = [{% for options in question.options %}{name: '{{ options.value|raw }}', data: [{{ options.votes }}]},{% endfor %} ];
+        var chart_question_{{ question.id }} = new Highcharts.Chart({
+            chart: {
+                type: 'bar',
+                renderTo: 'poll_container_question_{{ question.id }}',
+            },
+            credits: {
+                enabled: false
+            },
+            title: {
+                text: '{{ question.body|raw }}'
+            },
+            xAxis: {
+                categories: ['{{ question.body|raw }}']
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Votos'
+                }
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function () {
+                            var total = 0;
+                            for (i = 0; i < data_question_{{ question.id }}.length; i++) {
+                                total += parseInt(data_question_{{ question.id }}[i].data[0]);
+                            }
+                            var pcnt = (this.y / total) * 100;
+                            return this.series.name + " (" + Highcharts.numberFormat(pcnt) + '%)';
+                        }
+                    }
+                }
+            },
+            series: data_question_{{ question.id }}
+        });
+    </script>
+{% endfor %}

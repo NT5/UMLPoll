@@ -1,0 +1,31 @@
+<h2>Tabla de preguntas</h2>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            $('html, body').animate({scrollTop: $('#poll_container_question_' + $(this).data("href")).offset().top}, 1000);
+        });
+    });
+</script>
+<style>
+    .clickable-row:hover{
+        cursor: pointer;
+        background-color: whitesmoke;
+    }
+</style>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Pregunta</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for question in poll_array.questions %}
+            <tr class='clickable-row' data-href='{{ question.id|raw }}'>
+                <td>{{ question.id|raw }}</td>
+                <td>{{ question.body|raw }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr/>

@@ -1,0 +1,49 @@
+<div id="poll_container_progress" style="min-width: 300px; height: 300px; margin: 1em"></div>
+<hr/>
+<script>
+    var chart_progress = new Highcharts.Chart({
+        chart: {
+            renderTo: 'poll_container_progress',
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Progreso<br/>de la<br/>encuesta',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+                type: 'pie',
+                name: 'Porcentaje',
+                innerSize: '50%',
+                data: [
+                    ['Faltantes', {% if poll_array.replied < poll_array.goal %} {{ poll_array.goal - poll_array.replied }} {% else %} {{ 0 }} {% endif %}],
+                    ['Completadas', {{ poll_array.replied }}]
+                ]
+            }]
+    });
+</script>

@@ -1,0 +1,24 @@
+{
+    "name": "nt5/u-m-l-poll",
+    "type": "project",
+    "description": "Poll creator.",
+    "authors": [
+        {
+            "name": "Hendell Jonathan Porras Perez",
+            "email": "hendelporras@hotmail.com",
+            "homepage": "http://nt5.info"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "UMLPoll\\": "res/php/",
+            "UMLPoll\\Poll\\": "res/php/"
+        }
+    },
+    "license": "Apache-2.0",
+    "require": {
+        "twig/twig": "1.*",
+        "components/jquery": "1.*",
+        "twbs/bootstrap": "3.*"
+    }
+}
